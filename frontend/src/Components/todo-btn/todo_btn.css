@@ -1,0 +1,36 @@
+.todo-icon {
+    position: fixed;      /* stay in place while scrolling */
+    bottom: 20px;         /* distance from bottom */
+    right: 20px;          /* distance from right */
+    z-index: 2000;        /* keep above all content */
+    height: 5rem;
+    width: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: transparent;
+}
+
+.todo-icon-btn {
+    height: 5rem;
+    width: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(181, 54, 54);
+    border-radius: 50%;
+    border: transparent;
+}
+
+.todo-icon-img {
+    height: 5rem;
+    width: 5rem;
+    border-radius: 50%;
+    border: transparent;
+}
+
+.todo-icon-btn:hover {
+    cursor: pointer;
+    background-color: rgb(150, 40, 40); /* optional hover effect */
+}

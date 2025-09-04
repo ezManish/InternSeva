@@ -1,0 +1,162 @@
+/* Push content below the navbar */
+.edit-container {
+  margin-top: 10px;   /* ✅ space below navbar */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 120px);
+  background: #fff;  
+  padding: 20px;
+}
+
+/* Card style */
+.edit-form-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Title */
+.edit-form-card .edit-heading {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #222;
+  text-align: center;
+}
+
+/* Input fields */
+.edit-input-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.edit-input,
+.edit-file-input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 15px;
+}
+
+.edit-input:focus,
+.edit-file-input:focus {
+  border-color: #007bff;
+}
+
+.edit-input-hint {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Chips */
+.edit-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.edit-chip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #aaa;
+  background: #f1f1f1;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.edit-chip--selected {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Buttons */
+.edit-btn-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.edit-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.edit-btn--primary {
+  background: #007bff;
+  color: white;
+}
+
+.edit-btn--secondary {
+  background: #ddd;
+  color: #333;
+}
+
+.edit-btn--success {
+  background: #28a745;
+  color: white;
+}
+
+.edit-btn:hover {
+  opacity: 0.9;
+}
+
+/* Progress Bar */
+.edit-progress {
+  height: 8px;
+  background: #eee;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.edit-progress-bar {
+  height: 8px;
+  background: #28a745;
+  border-radius: 5px;
+  transition: width 0.3s ease-in-out;
+}
+
+.edit-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  font-size: 14px;
+  color: #666;
+}
+
+.edit-progress-labels .edit-active {
+  font-weight: bold;
+  color: #28a745;
+}
+
+/* Small animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Paragraphs inside form */
+.edit-subtitle {
+  font-weight: bold;
+  margin: 10px 0;
+}
