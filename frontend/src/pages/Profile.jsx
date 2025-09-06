@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Profile.css";
-
+import ProfileSection from "../Components/ProfileSection/ProfileSection";
 const Profile = () => {
   return (
     <div className="profile-container">
@@ -13,11 +13,11 @@ const Profile = () => {
           className="profile-avatar"
         />
         <h2>Hello Innovator 🌟 Ready to Shine?</h2>
-        {/* ✅ Navigate to EditProfile page */}
         <Link to="/edit-profile">
           <button className="new-btn">Edit Profile</button>
         </Link>
       </div>
+      
     </div>
   );
 };

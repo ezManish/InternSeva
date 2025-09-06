@@ -1,0 +1,25 @@
+.mar-img img{
+    height: 13rem;
+    width: 13rem;
+    margin: 0rem 4rem;
+}
+.mar-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+    padding: 4rem 0rem 4rem 0rem;
+}
+.mar-moving{
+    width: 100%;
+}
+.mar-moving{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+.mar-heading h1{
+    color: rgb(6, 47, 79);
+}

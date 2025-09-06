@@ -6,8 +6,9 @@ import Contact from '../Components/contact/Contact';
 import TodoApp from '../Components/todo/TodoApp';
 import Todo_btn from '../Components/todo-btn/Todo_btn';
 import InternshipSearch from '../Components/FindUs/FindUs'
+import Marquee_page from '../Components/Marqueee/Marquee_page';
 // import Navbar from '../Components/Navbar/Navbar';
-const Home = () => {
+const Home = ({user}) => {
   const [showTodo, setShowTodo] = useState(false);
   const [todos, setTodos] = useState([]); // state moved here
 
@@ -16,10 +17,11 @@ const Home = () => {
 
   return (
     <div >
-      <Logo_info />
+      <Logo_info user={user} />
       {/* <Navbar setShowLogin={setShowLogin} /> */}
-      <Img_mov />
+      {/* <Img_mov /> */}
       <InternshipSearch/>
+      <Marquee_page />
       <Contact />
       <Last />
 

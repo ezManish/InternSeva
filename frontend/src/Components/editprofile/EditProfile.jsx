@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import "./editProfile.css";   // ✅ keep styles here
+import React, { useState, useEffect } from "react";
+import "./editProfile.css";
 
-const InputField = ({ label, type = "text", value, onChange, placeholder }) => (
+const InputField = ({ label, type = "text", value, onChange, placeholder, autoComplete }) => (
   <div className="edit-input-group">
     <label className="edit-label">{label}</label>
     <input
@@ -10,20 +10,8 @@ const InputField = ({ label, type = "text", value, onChange, placeholder }) => (
       value={value}
       onChange={onChange}
       placeholder={placeholder}
+      autoComplete={autoComplete}
     />
-  </div>
-);
-
-const FileUpload = ({ label, onChange }) => (
-  <div className="edit-input-group">
-    <label className="edit-label">{label}</label>
-    <input
-      className="edit-file-input"
-      type="file"
-      accept=".pdf,.doc,.docx"
-      onChange={onChange}
-    />
-    <small className="edit-input-hint">Accepted formats: PDF, DOC, DOCX</small>
   </div>
 );
 
@@ -36,20 +24,73 @@ const Chip = ({ label, selected, onClick }) => (
   </button>
 );
 
-export default function EditProfile() {
+export default function EditProfile({ setShowProfile }) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
+    first_name: "",
+    last_name: "",
     contact: "",
     gender: "",
-    currentState: "",
-    preferredStates: [],
+    current_state: "",
+    preferred_states: [],
     interests: [],
-    mode: "In-office",
-    resume: null,
+    work_mode: "In-office",
   });
+
+  useEffect(() => {
+    // Load profile data when component mounts
+    fetchProfile();
+  }, []);
+
+  const fetchProfile = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/profile', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      const data = await response.json();
+      if (data.success && data.profile) {
+        setFormData(prev => ({
+          ...prev,
+          ...data.profile
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  };
+
+  const saveProfile = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/profile', {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        alert('Profile saved successfully!');
+        if (typeof setShowProfile === 'function') {
+          setShowProfile(false);
+        }
+      } else {
+        alert('Error saving profile: ' + data.message);
+      }
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      alert('Error saving profile');
+    }
+  };
 
   const toggleChip = (field, value) => {
     setFormData((prev) => {
@@ -66,7 +107,6 @@ export default function EditProfile() {
   return (
     <div className="edit-container">
       <div className="edit-form-card">
-        {/* Progress Bar */}
         <div className="edit-progress">
           <div
             className="edit-progress-bar"
@@ -82,31 +122,26 @@ export default function EditProfile() {
           </span>
         </div>
 
-        {/* Step 1 */}
         {step === 1 && (
           <>
             <h2 className="edit-heading">Confirm your details</h2>
             <InputField
               label="First Name"
-              value={formData.firstName}
+              value={formData.first_name}
               onChange={(e) =>
-                setFormData({ ...formData, firstName: e.target.value })
+                setFormData({ ...formData, first_name: e.target.value })
               }
+              autoComplete="given-name"
+              placeholder="Enter your first name"
             />
             <InputField
               label="Last Name"
-              value={formData.lastName}
+              value={formData.last_name}
               onChange={(e) =>
-                setFormData({ ...formData, lastName: e.target.value })
+                setFormData({ ...formData, last_name: e.target.value })
               }
-            />
-            <InputField
-              label="Email"
-              type="email"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
+              autoComplete="family-name"
+              placeholder="Enter your last name"
             />
             <InputField
               label="Contact Number"
@@ -114,13 +149,17 @@ export default function EditProfile() {
               onChange={(e) =>
                 setFormData({ ...formData, contact: e.target.value })
               }
+              autoComplete="tel"
+              placeholder="Enter your phone number"
             />
             <InputField
               label="Current State"
-              value={formData.currentState}
+              value={formData.current_state}
               onChange={(e) =>
-                setFormData({ ...formData, currentState: e.target.value })
+                setFormData({ ...formData, current_state: e.target.value })
               }
+              autoComplete="address-level1"
+              placeholder="Enter your current state"
             />
 
             <p className="edit-subtitle">Gender</p>
@@ -135,13 +174,6 @@ export default function EditProfile() {
               ))}
             </div>
 
-            <FileUpload
-              label="Upload Resume"
-              onChange={(e) =>
-                setFormData({ ...formData, resume: e.target.files[0] })
-              }
-            />
-
             <div className="edit-btn-row">
               <button
                 className="edit-btn edit-btn--primary"
@@ -153,7 +185,6 @@ export default function EditProfile() {
           </>
         )}
 
-        {/* Step 2 */}
         {step === 2 && (
           <>
             <h2 className="edit-heading">Areas of Interest</h2>
@@ -202,8 +233,8 @@ export default function EditProfile() {
                 <Chip
                   key={state}
                   label={state}
-                  selected={formData.preferredStates.includes(state)}
-                  onClick={() => toggleChip("preferredStates", state)}
+                  selected={formData.preferred_states.includes(state)}
+                  onClick={() => toggleChip("preferred_states", state)}
                 />
               ))}
             </div>
@@ -214,8 +245,8 @@ export default function EditProfile() {
                 <Chip
                   key={mode}
                   label={mode}
-                  selected={formData.mode === mode}
-                  onClick={() => setFormData({ ...formData, mode })}
+                  selected={formData.work_mode === mode}
+                  onClick={() => setFormData({ ...formData, work_mode: mode })}
                 />
               ))}
             </div>
@@ -229,7 +260,7 @@ export default function EditProfile() {
               </button>
               <button
                 className="edit-btn edit-btn--success"
-                onClick={() => alert("Form Submitted ✅")}
+                onClick={saveProfile}
               >
                 Save & Continue
               </button>
@@ -240,3 +271,7 @@ export default function EditProfile() {
     </div>
   );
 }
+
+EditProfile.defaultProps = {
+  setShowProfile: () => console.warn('setShowProfile function not provided')
+};
